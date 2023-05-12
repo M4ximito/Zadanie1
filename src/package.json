@@ -11,6 +11,7 @@
   "author": "Maksim Maltsau",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
     "useragent": "^2.3.0"
   }
 }

@@ -1,12 +1,12 @@
 const http = require('http');
-const { parse } = require('useragent');
 
 // Nazwisko autora serwera
 const authorName = 'Maltsau';
 
 // Funkcja do obsługi przychodzących żądań
 function handleRequest(req, res) {
-  const clientIP = req.connection.remoteAddress.replace('::ffff:', ''); // Adres IP klienta без префикса ::ffff:
+  const clientIP = req.connection.remoteAddress.replace('::ffff:', ''); // Adres IP klienta bez prefiksu ::ffff:
+  const userAgent = req.headers['user-agent']; // User-Agent string
 
   // Zapis informacji o uruchomieniu serwera w logach
   console.log(`Serwer uruchomiony przez ${authorName} na porcie ${server.address().port}`);
@@ -23,16 +23,12 @@ function handleRequest(req, res) {
     timeStyle: 'full'
   }).format(currentDate);
 
-  // Parsowanie User-Agent, чтобы получить информацию об устройстве
-  const userAgent = parse(req.headers['user-agent']);
-  const device = userAgent.device.toString();
-
-  // Wysyłание odpowiedzi с информацией о клиенте, его статусе времени и устройстве
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  // Wysyłanie odpowiedzi z informacjami o kliencie, jego strefie czasowej i używanym przeglądarce
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
   res.write('<html><body style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background-color:#f2f2f2; font-family: Arial, sans-serif;">');
   res.write(`<h1 style="margin-bottom: 20px; color:#333;">Adres IP klienta: ${clientIP}</h1>`);
-  res.write(`<p style="margin-bottom: 40px; color:#666;">Current date and time in client's timezone (${clientTimezone}): ${clientDateTime}</p>`);
-  res.write(`<p style="margin-bottom: 40px; color:#666;">Device: ${device}</p>`);
+  res.write(`<p style="margin-bottom: 40px; color:#666;">Bieżąca data i godzina w strefie czasowej klienta (${clientTimezone}): ${clientDateTime}</p>`);
+  res.write(`<p style="margin-bottom: 20px; color:#333;">Używana OS: ${getUserAgentInfo(userAgent)}</p>`);
   res.write(`<a href="https://github.com/M4ximito/Zadanie1" style="text-decoration: none; color:#007bff;">GitHub</a>`);
   res.write('</body></html>');
   res.end();
@@ -45,3 +41,9 @@ const server = http.createServer(handleRequest);
 server.listen(3000, () => {
   console.log(`Serwer uruchomiony na porcie ${server.address().port}`);
 });
+
+// Funkcja do pobierania informacji o używanej przeglądarce na podstawie user-agent string
+function getUserAgentInfo(userAgent) {
+  const browserInfo = userAgent.match(/\(([^)]+)\)/)[1];
+  return browserInfo.split(';')[0].trim();
+}
