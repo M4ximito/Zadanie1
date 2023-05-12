@@ -1,28 +1,28 @@
-# Stage 1: Build the application
+# Stage 1: Zbudowanie aplikacji
 FROM node:14 AS build
 WORKDIR /app
 COPY src/package.json src/package-lock.json ./
 RUN npm install
 COPY src ./
 
-# Stage 2: Create the container image
+# Stage 2: Tworzenie obrazu kontenera
 FROM node:14-alpine
 LABEL author="Maksim Maltsau"
 
-# Copy the built application from the previous stage
+# Kopiowanie zbudowanej aplikacji z poprzedniego etapu
 COPY --from=build /app /app
 
-# Set the working directory
+# Ustaw katalog roboczy
 WORKDIR /app
 
-# Install the required dependencies
+# Zainstalowanie wymagane zależności
 RUN npm install
 
-# Set the environment variables
+# Ustaw zmienne środowiskowe
 ENV TZ=Europe/Warsaw
 
-# Expose the port
+# Wystawienie portu
 EXPOSE 3000
 
-# Start the server
+# Uruchomienie serwera
 CMD ["node", "server.js"]
