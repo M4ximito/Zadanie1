@@ -26,8 +26,8 @@ function handleRequest(req, res) {
   // Wysyłanie odpowiedzi z informacjami o kliencie, jego strefie czasowej i używanym przeglądarce
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
   res.write('<html><body style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; background-color:#f2f2f2; font-family: Arial, sans-serif;">');
-  res.write(`<h1 style="margin-bottom: 20px; color:#333;">Adres IP klienta: ${clientIP}</h1>`);
-  res.write(`<p style="margin-bottom: 40px; color:#666;">Bieżąca data i godzina w strefie czasowej klienta (${clientTimezone}): ${clientDateTime}</p>`);
+  res.write(`<h1 style="margin-bottom: 20px; color:#333;">Adres IP: ${clientIP}</h1>`);
+  res.write(`<p style="margin-bottom: 40px; color:#666; white-space: pre-wrap; word-break: break-word; text-align: center;">Current date and time in the time zone (${clientTimezone}):\n${clientDateTime}</p>`);
   res.write(`<p style="margin-bottom: 20px; color:#333;">Używana OS: ${getUserAgentInfo(userAgent)}</p>`);
   res.write(`<a href="https://github.com/M4ximito/Zadanie1" style="text-decoration: none; color:#007bff;">GitHub</a>`);
   res.write('</body></html>');
