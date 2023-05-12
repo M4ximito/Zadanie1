@@ -7,7 +7,7 @@ docker build -t zadanie1 .
 b. Aby uruchomić kontener na podstawie utworzonego obrazu, użyj polecenia `docker run`.
 
 ```shell
-docker run -p <3000>:<30000> zadanie1
+docker run -p 3000:3000 zadanie1
 ```
 
 
