@@ -37,12 +37,22 @@ function handleRequest(req, res) {
 // Tworzenie serwera HTTP
 const server = http.createServer(handleRequest);
 
-// Uruchamianie serwera na porcie 3000
-server.listen(3000, () => {
-  console.log(`Serwer uruchomiony na porcie ${server.address().port}`);
+// Uruchamianie serwera на порту 3000
+const port = 3000;
+server.listen(port, () => {
+  console.log(`Serwer uruchomiony на порту ${port}`);
 });
 
-// Funkcja do pobierania informacji o używanej przeglądarce na podstawie user-agent string
+// Обработка сигнала SIGINT для завершения сервера
+process.on('SIGINT', () => {
+  console.log('Остановка serwera');
+  server.close(() => {
+    console.log('Serwer остановлен');
+    process.exit(0);
+  });
+});
+
+// Funkcja do pobierania информации о используемом браузере на основе user-agent string
 function getUserAgentInfo(userAgent) {
   const browserInfo = userAgent.match(/\(([^)]+)\)/)[1];
   return browserInfo.split(';')[0].trim();
