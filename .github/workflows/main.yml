@@ -25,4 +25,4 @@ jobs:
         context: .
         file: Dockerfile
         push: true
-        tags: your-dockerhub-username/your-image-name:latest
+        tags: m4ximito/zadanie1:latest
