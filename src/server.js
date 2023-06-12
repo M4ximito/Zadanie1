@@ -1,7 +1,7 @@
 const http = require('http');
 
 // Nazwisko autora serwera
-const authorName = 'Maltsau';
+const authorName = 'Maltsau Maksim';
 
 // Funkcja do obsługi przychodzących żądań
 function handleRequest(req, res) {
